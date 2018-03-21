@@ -213,7 +213,7 @@ void SynBox::train(const char type[2],int step)
     FILE *fkni,*fhb,*fkr,*fgt,*fbcd,*fnos,*ftll;
     double kni[Nt][Nx],hb[Nt][Nx],kr[Nt][Nx],gt[Nt][Nx];
     double bcd[Nx],nos[Nx],tll[Nx];
-    int i,j,k,row;
+    int i,j,kk,row;
     fkni=fopen(filekni,"r");
     fhb=fopen(filehb,"r");
     fkr=fopen(filekr,"r");
@@ -252,7 +252,7 @@ void SynBox::train(const char type[2],int step)
             continue;
         if(row==Nt-1)
             continue;
-        for(k=0;k<10*Nx;k++)
+        for(kk=0;kk<10*Nx;kk++)
         {
             j=(int)((rand()/2147483647.0)*Nx);
             y1[0]=kni[row][j];
@@ -300,15 +300,67 @@ void SynBox::train(const char type[2],int step)
             para_update();
     //        printf("%.10f\n",loss_error);
         }///loop(j) 0 to 100 in one row
-        if(i%100==0)
-        {
+    //    if(i%100==0)
+    //    {
             //printf("%d:",i);
             //test(type);
-        }
+    //    }
         //fprintf(ferr,"%f\n",test(type));
         ln_rate-=d_rate;
     }//loop step(i)
+    FILE *f_para;
+    f_para=fopen("para/para.txt","w");
+    fprintf(f_para,"k:\n");
+    for(i=0;i<7;i++)
+        fprintf(f_para,"%f\t",k[i]);
+    fprintf(f_para,"\nv:\n");
+    for(i=0;i<7;i++)
+    {
+        for(j=0;j<4;j++)
+            fprintf(f_para,"%f\t",v[i][j]);
+        fprintf(f_para,"\n");
+    }
+    fprintf(f_para,"beta:\n%f",beta);
+    fclose(f_para);
 }
+void SynBox::set(const char file[])
+{
+    printf("loading data from \"%s\"...\n",file);
+    FILE *fp;
+    fp=fopen(file,"r");
+    int i,j;
+    fscanf(fp,"k:\n");
+    for(i=0;i<7;i++)
+    {
+        fscanf(fp,"%lf\t",&k[i]);
+    }
+    fscanf(fp,"\nv:\n");
+    for(i=0;i<7;i++)
+    {
+        for(j=0;j<4;j++)
+        {
+            fscanf(fp,"%lf\t",&v[i][j]);
+        }
+        fscanf(fp,"\n");
+    }
+    fscanf(fp,"beta:\n%lf",&beta);
+    fclose(fp);
+    printf("set finished!\n\n");
+    for(i=0;i<7;i++)
+        printf("%f\t",k[i]);
+    printf("\n");
+    for(i=0;i<7;i++)
+    {
+        for(j=0;j<4;j++)
+        {
+            printf("%f\t",v[i][j]);
+        }
+        printf("\n");
+    }
+    printf("%f\n\n",beta);
+}
+
+
 void SynBox::para_update()
 {
     int i,j;

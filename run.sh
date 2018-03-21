@@ -7,6 +7,7 @@ do
     cd ../..
 done
 rm *.txt
+rm k
 gcc code/*.cpp -o k -lm -O2
 ./k
 ./plot.sh 1>tmp 2>tmp

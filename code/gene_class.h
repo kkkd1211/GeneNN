@@ -22,9 +22,9 @@ class SynBox
         SynBox();
         void train(const char type[2],int step);
         double test(const char type[2],double smaller);
-        double test_smallstep(const char type[2]);
+//        double test_smallstep(const char type[2]);
         void predic(double x[7],double xl[4],double xr[4]);
-        
+        void set(const char para_file[]);        
 
         double out[4];
     private:

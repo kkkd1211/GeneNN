@@ -13,10 +13,8 @@ int main()
     int i;
     srand((unsigned)time(NULL));
     SynBox box; 
-    //box.test("my",1.0);
-    //box.test_smallstep("my");
     box.train("my",100000);
-    //box.test("my");
+    //box.set("para/para1.txt");
     box.test("my",100.0);
     box.test("wt",100.0);
     box.test("B+",100.0);
