@@ -24,7 +24,15 @@ row-column switching: ./outgt.txt
 row-column switching: ./outhb.txt
 row-column switching: ./outkni.txt
 row-column switching: ./outkr.txt
-th no valid points
+row-column switching: ./outgt.txt
+row-column switching: ./outhb.txt
+row-column switching: ./outkni.txt
+row-column switching: ./outkr.txt
+ 6: x range is invalid
+
+50 frames in animation sequence
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
 line 6: warning: Skipping data file with no valid points
 line 6: warning: Skipping data file with no valid points
 line 6: x range is invalid

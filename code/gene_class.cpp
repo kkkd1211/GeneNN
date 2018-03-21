@@ -62,13 +62,15 @@ double SynBox::test(const char type[2],double smaller)
     double dkni[Nx],dhb[Nx],dkr[Nx],dgt[Nx];
     double tg_kni[Nx],tg_hb[Nx],tg_kr[Nx],tg_gt[Nx];
     double bcd[Nx],nos[Nx],tll[Nx];
-    int i,j;
+    int i,j,ii;
     fkni=fopen(filekni,"r");
     fhb=fopen(filehb,"r");
     fkr=fopen(filekr,"r");
     fgt=fopen(filegt,"r");
-    for(i=0;i<2;i++)
+    ii=0;
+    do
     {
+        ii++;
         for(j=0;j<Nx;j++)
         {
             fscanf(fkni,"%lf ",&kni[j]);
@@ -76,8 +78,8 @@ double SynBox::test(const char type[2],double smaller)
             fscanf(fkr,"%lf ",&kr[j]);
             fscanf(fgt,"%lf ",&gt[j]);
         }
-    }
-    for(i=0;i<Nt-2;i++)
+    }while(kni[0]!=kni[0]);
+    for(i=0;i<Nt-ii;i++)
     {
         for(j=0;j<Nx;j++)
         {

@@ -17,6 +17,7 @@ int main()
     //box.set("para/para1.txt");
     box.test("my",100.0);
     box.test("wt",100.0);
+    box.test("w3",100.0);
     box.test("B+",100.0);
     box.test("B-",100.0);
     box.test("N+",100.0);

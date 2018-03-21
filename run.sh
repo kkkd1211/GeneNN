@@ -3,7 +3,9 @@ echo '' > tmp
 for file in output/*
 do
     cd $file
-    rm ./*
+    rm ./*.txt
+    rm ./*.gif
+    rm ./*.png
     cd ../..
 done
 rm *.txt
