@@ -24,17 +24,17 @@ SynBox::SynBox()
     }
 }
 
-double SynBox::test(const char type[2])
+double SynBox::test(const char type[2],double smaller)
 {
     char outkni[50];
     char outhb[50];
     char outkr[50];
     char outgt[50];
 
-    sprintf(outkni,"outkni.txt");
-    sprintf(outhb,"outhb.txt");
-    sprintf(outkr,"outkr.txt");
-    sprintf(outgt,"outgt.txt");
+    sprintf(outkni,"output/%s/outkni.txt",type);
+    sprintf(outhb,"output/%s/outhb.txt",type);
+    sprintf(outkr,"output/%s/outkr.txt",type);
+    sprintf(outgt,"output/%s/outgt.txt",type);
     
 
     FILE *fokni,*fohb,*fokr,*fogt;
@@ -58,10 +58,10 @@ double SynBox::test(const char type[2])
     sprintf(filenos,"data/%s/nos.txt",type);
     sprintf(filetll,"data/%s/tll.txt",type);
     FILE *fkni,*fhb,*fkr,*fgt,*fbcd,*fnos,*ftll;
-    double kni[100],hb[100],kr[100],gt[100];
-    double dkni[100],dhb[100],dkr[100],dgt[100];
-    double tg_kni[100],tg_hb[100],tg_kr[100],tg_gt[100];
-    double bcd[100],nos[100],tll[100];
+    double kni[Nx],hb[Nx],kr[Nx],gt[Nx];
+    double dkni[Nx],dhb[Nx],dkr[Nx],dgt[Nx];
+    double tg_kni[Nx],tg_hb[Nx],tg_kr[Nx],tg_gt[Nx];
+    double bcd[Nx],nos[Nx],tll[Nx];
     int i,j;
     fkni=fopen(filekni,"r");
     fhb=fopen(filehb,"r");
@@ -69,7 +69,7 @@ double SynBox::test(const char type[2])
     fgt=fopen(filegt,"r");
     for(i=0;i<2;i++)
     {
-        for(j=0;j<100;j++)
+        for(j=0;j<Nx;j++)
         {
             fscanf(fkni,"%lf ",&kni[j]);
             fscanf(fhb,"%lf ",&hb[j]);
@@ -77,9 +77,9 @@ double SynBox::test(const char type[2])
             fscanf(fgt,"%lf ",&gt[j]);
         }
     }
-    for(i=0;i<58;i++)
+    for(i=0;i<Nt-2;i++)
     {
-        for(j=0;j<100;j++)
+        for(j=0;j<Nx;j++)
         {
             fscanf(fkni,"%lf ",&tg_kni[j]);
             fscanf(fhb,"%lf ",&tg_hb[j]);
@@ -94,7 +94,7 @@ double SynBox::test(const char type[2])
     fbcd=fopen(filebcd,"r");
     fnos=fopen(filenos,"r");
     ftll=fopen(filetll,"r");
-    for(i=0;i<100;i++)
+    for(i=0;i<Nx;i++)
     {
         fscanf(fbcd,"%lf ",&bcd[i]);
         fscanf(fnos,"%lf ",&nos[i]);
@@ -104,9 +104,9 @@ double SynBox::test(const char type[2])
     fclose(fnos);
     fclose(ftll);
     double x[7],xl[4],xr[4];
-    for(i=0;i<60;i++)
+    for(i=0;i<Nt*smaller;i++)
     {
-        for(j=0;j<100;j++)
+        for(j=0;j<Nx;j++)
         {
             x[0]=kni[j];
             x[1]=hb[j];
@@ -129,14 +129,14 @@ double SynBox::test(const char type[2])
                 xl[2]=kr[j-1];
                 xl[3]=gt[j-1];
             }
-            if(j==99)
+            if(j==Nx-1)
             {
                 xr[0]=-1;
                 xr[1]=-1;
                 xr[2]=-1;
                 xr[3]=-1;
             }
-            else if(j!=99)
+            else if(j!=Nx-1)
             {
                 xr[0]=kni[j+1];
                 xr[1]=hb[j+1];
@@ -149,32 +149,38 @@ double SynBox::test(const char type[2])
             dkr[j]=out[2];
             dgt[j]=out[3];
         }//loop j 0 to 100
-        for(j=0;j<100;j++)
+        for(j=0;j<Nx;j++)
         {
-            fprintf(fokni,"%f\t",kni[j]);
-            fprintf(fohb,"%f\t",hb[j]);
-            fprintf(fokr,"%f\t",kr[j]);
-            fprintf(fogt,"%f\t",gt[j]);
-            kni[j]+=dkni[j];
-            hb[j]+=dhb[j];
-            kr[j]+=dkr[j];
-            gt[j]+=dgt[j];
+            if((i%(int)smaller)==0)
+            {
+                fprintf(fokni,"%f\t",kni[j]);
+                fprintf(fohb,"%f\t",hb[j]);
+                fprintf(fokr,"%f\t",kr[j]);
+                fprintf(fogt,"%f\t",gt[j]);
+            }
+            kni[j]+=(dkni[j]/smaller);
+            hb[j]+=(dhb[j]/smaller);
+            kr[j]+=(dkr[j]/smaller);
+            gt[j]+=(dgt[j]/smaller);
         }
-        fprintf(fokni,"\n");
-        fprintf(fohb,"\n");
-        fprintf(fokr,"\n");
-        fprintf(fogt,"\n");
+        if((i%(int)smaller)==0)
+        {
+            fprintf(fokni,"\n");
+            fprintf(fohb,"\n");
+            fprintf(fokr,"\n");
+            fprintf(fogt,"\n");
+        }
     }//loop i 0 to 60
     double curve_err=0;
-    for(j=0;j<100;j++)
+    for(j=0;j<Nx;j++)
     {
-        curve_err+=(kni[j]-tg_kni[j])*(kni[j]*tg_kni[j]);
+        curve_err+=(kni[j]-tg_kni[j])*(kni[j]-tg_kni[j]);
         curve_err+=(hb[j]-tg_hb[j])*(hb[j]-tg_hb[j]);
         curve_err+=(kr[j]-tg_kr[j])*(kr[j]-tg_kr[j]);
         curve_err+=(gt[j]-tg_gt[j])*(gt[j]-tg_gt[j]);
     }
     curve_err*=0.5;
-    printf("curve total error : %f\n",curve_err);
+    printf("curve total error (%s) : %f\n",type,curve_err);
     
     fclose(fokni);
     fclose(fohb);
@@ -205,16 +211,16 @@ void SynBox::train(const char type[2],int step)
     sprintf(filenos,"data/%s/nos.txt",type);
     sprintf(filetll,"data/%s/tll.txt",type);
     FILE *fkni,*fhb,*fkr,*fgt,*fbcd,*fnos,*ftll;
-    double kni[60][100],hb[60][100],kr[60][100],gt[60][100];
-    double bcd[100],nos[100],tll[100];
-    int i,j,row;
+    double kni[Nt][Nx],hb[Nt][Nx],kr[Nt][Nx],gt[Nt][Nx];
+    double bcd[Nx],nos[Nx],tll[Nx];
+    int i,j,k,row;
     fkni=fopen(filekni,"r");
     fhb=fopen(filehb,"r");
     fkr=fopen(filekr,"r");
     fgt=fopen(filegt,"r");
-    for(i=0;i<60;i++)
+    for(i=0;i<Nt;i++)
     {
-        for(j=0;j<100;j++)
+        for(j=0;j<Nx;j++)
         {
             fscanf(fkni,"%lf ",&kni[i][j]);
             fscanf(fhb,"%lf ",&hb[i][j]);
@@ -229,7 +235,7 @@ void SynBox::train(const char type[2],int step)
     fbcd=fopen(filebcd,"r");
     fnos=fopen(filenos,"r");
     ftll=fopen(filetll,"r");
-    for(i=0;i<100;i++)
+    for(i=0;i<Nx;i++)
     {
         fscanf(fbcd,"%lf ",&bcd[i]);
         fscanf(fnos,"%lf ",&nos[i]);
@@ -241,13 +247,14 @@ void SynBox::train(const char type[2],int step)
 
     for(i=0;i<step;i++)
     {
-        row=(int)((rand()/2147483647.0)*60);
+        row=(int)((rand()/2147483647.0)*Nt);
         if(kni[row][0]!=kni[row][0])
             continue;
-        if(row==59)
+        if(row==Nt-1)
             continue;
-        for(j=0;j<100;j++)
+        for(k=0;k<10*Nx;k++)
         {
+            j=(int)((rand()/2147483647.0)*Nx);
             y1[0]=kni[row][j];
             y1[1]=hb[row][j];
             y1[2]=kr[row][j];
@@ -269,14 +276,14 @@ void SynBox::train(const char type[2],int step)
                 y1l[2]=-1;
                 y1l[3]=-1;
             }
-            if(j!=99)
+            if(j!=Nx-1)
             {
                 y1r[0]=kni[row][j+1];
                 y1r[1]=hb[row][j+1];
                 y1r[2]=kr[row][j+1];
                 y1r[3]=gt[row][j+1];
             }
-            else if(j==99)
+            else if(j==Nx-1)
             {
                 y1r[0]=-1;
                 y1r[1]=-1;
@@ -291,7 +298,7 @@ void SynBox::train(const char type[2],int step)
             de();
             err();
             para_update();
-            printf("%.10f\n",loss_error);
+    //        printf("%.10f\n",loss_error);
         }///loop(j) 0 to 100 in one row
         if(i%100==0)
         {

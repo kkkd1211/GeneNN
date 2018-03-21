@@ -8,6 +8,8 @@
 #include <string.h>
 #include <sys/stat.h>
 
+#define Nx 100
+#define Nt 50
 #define k_epsilon 0.000001
 #define kkk printf("kkk!!!\n");
 using namespace std;
@@ -19,16 +21,17 @@ class SynBox
 //        ~SynBox();
         SynBox();
         void train(const char type[2],int step);
-        double test(const char type[2]);
+        double test(const char type[2],double smaller);
+        double test_smallstep(const char type[2]);
         void predic(double x[7],double xl[4],double xr[4]);
-
+        
 
         double out[4];
     private:
         double k[7];
         double v[7][4];
         double beta;
-        double D=0.5;
+        double D=1000;
         double dt=0.0001;
         
         double y1[7];

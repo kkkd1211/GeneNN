@@ -13,8 +13,16 @@ int main()
     int i;
     srand((unsigned)time(NULL));
     SynBox box; 
-    box.test("wt");
-    box.train("wt",100000);
-    box.test("wt");
+    //box.test("my",1.0);
+    //box.test_smallstep("my");
+    box.train("my",100000);
+    //box.test("my");
+    box.test("my",100.0);
+    box.test("wt",100.0);
+    box.test("B+",100.0);
+    box.test("B-",100.0);
+    box.test("N+",100.0);
+    box.test("N-",100.0);
+    box.test("T-",100.0);
 }
 
