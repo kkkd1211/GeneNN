@@ -1,8 +1,8 @@
 #!/bin/bash
-for file in output/*
+for file in testoutput/*/*
 do
     cd $file
-    sh ../../switch.sh
-    gnuplot ../../makegif.plt
-    cd ../../
+    sh ../../../switch.sh
+    gnuplot ../../../makegif.plt
+    cd ../../..
 done

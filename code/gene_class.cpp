@@ -23,26 +23,23 @@ SynBox::SynBox()
         }
     }
 }
-
+void SynBox::clearTestOut()
+{
+    int i,j;
+    for(i=0;i<Nt;i++)
+    {
+        for(j=0;j<Nx;j++)
+        {
+            test_kni[i][j]=0;
+            test_hb[i][j]=0;
+            test_kr[i][j]=0;
+            test_gt[i][j]=0;
+        }
+    }
+}
 double SynBox::test(const char type[2],double smaller)
 {
-    char outkni[50];
-    char outhb[50];
-    char outkr[50];
-    char outgt[50];
-
-    sprintf(outkni,"output/%s/outkni.txt",type);
-    sprintf(outhb,"output/%s/outhb.txt",type);
-    sprintf(outkr,"output/%s/outkr.txt",type);
-    sprintf(outgt,"output/%s/outgt.txt",type);
-    
-
-    FILE *fokni,*fohb,*fokr,*fogt;
-    fokni=fopen(outkni,"w");
-    fohb=fopen(outhb,"w");
-    fokr=fopen(outkr,"w");
-    fogt=fopen(outgt,"w");
-
+    clearTestOut();
     char filekni[50];
     char filehb[50];
     char filekr[50];
@@ -155,22 +152,15 @@ double SynBox::test(const char type[2],double smaller)
         {
             if((i%(int)smaller)==0)
             {
-                fprintf(fokni,"%f\t",kni[j]);
-                fprintf(fohb,"%f\t",hb[j]);
-                fprintf(fokr,"%f\t",kr[j]);
-                fprintf(fogt,"%f\t",gt[j]);
+                test_kni[(int)(i/smaller)][j]=kni[j];
+                test_hb[(int)(i/smaller)][j]=hb[j];
+                test_kr[(int)(i/smaller)][j]=kr[j];
+                test_gt[(int)(i/smaller)][j]=gt[j];
             }
             kni[j]+=(dkni[j]/smaller);
             hb[j]+=(dhb[j]/smaller);
             kr[j]+=(dkr[j]/smaller);
             gt[j]+=(dgt[j]/smaller);
-        }
-        if((i%(int)smaller)==0)
-        {
-            fprintf(fokni,"\n");
-            fprintf(fohb,"\n");
-            fprintf(fokr,"\n");
-            fprintf(fogt,"\n");
         }
     }//loop i 0 to 60
     double curve_err=0;
@@ -183,20 +173,61 @@ double SynBox::test(const char type[2],double smaller)
     }
     curve_err*=0.5;
     printf("curve total error (%s) : %f\n",type,curve_err);
-    
-    fclose(fokni);
-    fclose(fohb);
-    fclose(fokr);
-    fclose(fogt);
-//    printf("%f\t%f\t%f\t%f\t%f\t%f\t%f\n",k[0],k[1],k[2],k[3],k[4],k[5],k[6]);
     return(curve_err);
-}
-
+}//test
+void SynBox::mkTestFile(const char type[2],int dataNO,double curve_err)
+{
+    char file[50];
+    sprintf(file,"testoutput/data%d",dataNO);
+    printf("\tmkdir:%s...",file);
+    mkdir(file,0777);
+    printf("done!\n");
+    sprintf(file,"testoutput/data%d/%s(%.2f)",dataNO,type,curve_err);
+    printf("\tmkdir:%s...",file);
+    mkdir(file,0777);
+    printf("done!\n");
+}//mkTestFile
+void SynBox::saveTestResult(const char type[2],int dataNO,double curve_err)
+{
+    mkTestFile(type,dataNO,curve_err);
+    FILE *f_kni,*f_hb,*f_kr,*f_gt;
+    char knifile[50];
+    char hbfile[50];
+    char krfile[50];
+    char gtfile[50];
+    sprintf(knifile,"testoutput/data%d/%s(%.2f)/outkni.txt",dataNO,type,curve_err);
+    sprintf(hbfile,"testoutput/data%d/%s(%.2f)/outhb.txt",dataNO,type,curve_err);
+    sprintf(krfile,"testoutput/data%d/%s(%.2f)/outkr.txt",dataNO,type,curve_err);
+    sprintf(gtfile,"testoutput/data%d/%s(%.2f)/outgt.txt",dataNO,type,curve_err);
+    f_kni=fopen(knifile,"w");
+    f_hb=fopen(hbfile,"w");
+    f_kr=fopen(krfile,"w");
+    f_gt=fopen(gtfile,"w");
+    int i,j;
+    for(i=0;i<Nt;i++)
+    {
+        for(j=0;j<Nx;j++)
+        {
+            fprintf(f_kni,"%f\t",test_kni[i][j]);
+            fprintf(f_hb,"%f\t",test_hb[i][j]);
+            fprintf(f_kr,"%f\t",test_kr[i][j]);
+            fprintf(f_gt,"%f\t",test_gt[i][j]);
+        }
+        fprintf(f_kni,"\n");
+        fprintf(f_hb,"\n");
+        fprintf(f_kr,"\n");
+        fprintf(f_gt,"\n");
+    }
+    fclose(f_kni);
+    fclose(f_hb);
+    fclose(f_kr);
+    fclose(f_gt);
+}//saveTestResult
 
 void SynBox::train(const char type[2],int step)
 {
-    FILE *ferr;
-    ferr=fopen("err.txt","w");
+    //FILE *ferr;
+    //ferr=fopen("err.txt","w");
     d_rate=0.4/step;
     char filekni[50];
     char filehb[50];
@@ -300,18 +331,18 @@ void SynBox::train(const char type[2],int step)
             de();
             err();
             para_update();
-    //        printf("%.10f\n",loss_error);
         }///loop(j) 0 to 100 in one row
-    //    if(i%100==0)
-    //    {
-            //printf("%d:",i);
-            //test(type);
-    //    }
-        //fprintf(ferr,"%f\n",test(type));
         ln_rate-=d_rate;
     }//loop step(i)
+}//train
+void SynBox::savePara(int dataNO)
+{
     FILE *f_para;
-    f_para=fopen("para/para.txt","w");
+    char paraFile[50];
+    int i,j;
+    sprintf(paraFile,"para/para%d.txt",dataNO);
+    printf("saving to file:%s...",paraFile);
+    f_para=fopen(paraFile,"w");
     fprintf(f_para,"k:\n");
     for(i=0;i<7;i++)
         fprintf(f_para,"%f\t",k[i]);
@@ -324,10 +355,11 @@ void SynBox::train(const char type[2],int step)
     }
     fprintf(f_para,"beta:\n%f",beta);
     fclose(f_para);
-}
+    printf("done!\n\n");
+}//savePara
 void SynBox::set(const char file[])
 {
-    printf("loading data from \"%s\"...\n",file);
+    printf("\nloading data from \"%s\"...",file);
     FILE *fp;
     fp=fopen(file,"r");
     int i,j;
@@ -347,7 +379,7 @@ void SynBox::set(const char file[])
     }
     fscanf(fp,"beta:\n%lf",&beta);
     fclose(fp);
-    printf("set finished!\n\n");
+    printf("set finished!\n\npara:\n");
     for(i=0;i<7;i++)
         printf("%f\t",k[i]);
     printf("\n");
@@ -360,7 +392,7 @@ void SynBox::set(const char file[])
         printf("\n");
     }
     printf("%f\n\n",beta);
-}
+}//set
 
 
 void SynBox::para_update()
@@ -378,7 +410,7 @@ void SynBox::para_update()
     if(beta<0)
         beta=k_epsilon;
 //    ln_rate-=d_rate;
-}
+}//para_update
 void SynBox::predic(double x[7],double xl[4],double xr[4])
 {
     int i;

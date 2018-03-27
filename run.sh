@@ -1,17 +1,17 @@
 #!/bin/bash
 echo '' > tmp
-for file in output/*
+cd .
+for file in testoutput/*/*
 do
     cd $file
-    rm ./*.txt
-    rm ./*.gif
-    rm ./*.png
-    cd ../..
+    rm ./*.txt 1>>../../../tmp 2>>../../../tmp
+    rm ./*.gif 1>>../../../tmp 2>>../../../tmp
+    rm ./*.png 1>>../../../tmp 2>>../../../tmp
+    cd -
 done
-rm *.txt
+g++ code/*.cpp -o k -lm -O2
+./k 99
 rm k
-gcc code/*.cpp -o k -lm -O2
-./k
-./plot.sh 1>tmp 2>tmp
+./plot.sh 1>>tmp 2>>tmp
 ##./switch.sh
 ##gnuplot makegif.plt

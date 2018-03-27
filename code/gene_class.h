@@ -25,9 +25,20 @@ class SynBox
 //        double test_smallstep(const char type[2]);
         void predic(double x[7],double xl[4],double xr[4]);
         void set(const char para_file[]);        
+        
+        void savePara(int dataNO);
+        void saveTestResult(const char type[2],int dataNO,double curve_err);
 
         double out[4];
     private:
+
+        double test_kni[Nt][Nx];
+        double test_hb[Nt][Nx];
+        double test_kr[Nt][Nx];
+        double test_gt[Nt][Nx];
+        void clearTestOut();
+        void mkTestFile(const char type[2],int dataNO,double curve_err);
+
         double k[7];
         double v[7][4];
         double beta;
