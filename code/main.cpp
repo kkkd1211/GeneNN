@@ -14,7 +14,7 @@ int main(int argc,char *argv[])
     int dataNO;
     double errRE;
     sscanf(argv[1],"%d",&dataNO);
-    srand((unsigned)((unsigned)time(NULL)*dataaNO+dataNO));
+    srand((unsigned)((unsigned)time(NULL)*dataNO+dataNO));
     SynBox box; 
     box.train("my",100000);
     //box.savePara(dataNO);
