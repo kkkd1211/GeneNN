@@ -19,5 +19,3 @@ g++ code_clust/*.cpp -o clust -O2
 ./clust $1
 rm clust
 ./plot.sh 1>>tmp 2>>tmp
-##./switch.sh
-##gnuplot makegif.plt

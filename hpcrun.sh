@@ -14,7 +14,3 @@ for ((i=0;i<$1;i++))
 do
     pkurun-cnlong 1 1 ./k $i
 done
-rm k
-##./plot.sh 1>>tmp 2>>tmp
-##./switch.sh
-##gnuplot makegif.plt
