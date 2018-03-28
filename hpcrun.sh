@@ -12,12 +12,9 @@ done
 g++ code/*.cpp -o k -lm -O2
 for ((i=0;i<$1;i++))
 do
-    ./k $i
+    pkurun-cnlong 1 1 ./k $i
 done
 rm k
-g++ code_clust/*.cpp -o clust -O2
-./clust $1
-rm clust
-./plot.sh 1>>tmp 2>>tmp
+##./plot.sh 1>>tmp 2>>tmp
 ##./switch.sh
 ##gnuplot makegif.plt
