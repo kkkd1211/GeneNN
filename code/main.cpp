@@ -26,8 +26,8 @@ int main(int argc,char *argv[])
         box.saveTestResult("my",dataNO,errRE);
         errRE=box.test("wt",100.0);
                 box.saveTestResult("wt",dataNO,errRE);
-        errRE=box.test("w3",100.0);
-                box.saveTestResult("w3",dataNO,errRE);
+        errRE=box.test("ws",100.0);
+                box.saveTestResult("ws",dataNO,errRE);
         errRE=box.test("B+",100.0);
                 box.saveTestResult("B+",dataNO,errRE);
         errRE=box.test("B-",100.0);
