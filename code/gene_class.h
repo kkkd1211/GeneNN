@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 
 #define Nx 100
-#define Nt 50
+#define Nt 50//50
 #define k_epsilon 0.000001
 #define kkk printf("kkk!!!\n");
 using namespace std;
