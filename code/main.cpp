@@ -16,14 +16,14 @@ int main(int argc,char *argv[])
     sscanf(argv[1],"%d",&dataNO);
     srand((unsigned)((unsigned)time(NULL)*dataNO+dataNO));
     SynBox box; 
-    box.train("s2",100000);
+    box.train("wt",100000);
     //box.savePara(dataNO);
     //box.set("para/para1.txt");
-    errRE=box.test("s2",100.0);
+    errRE=box.test("my",100.0);
     if(1)
     {
         box.savePara(dataNO);
-        		box.saveTestResult("s2",dataNO,errRE);
+        		box.saveTestResult("my",dataNO,errRE);
         errRE=box.test("wt",100.0);
                 box.saveTestResult("wt",dataNO,errRE);
         errRE=box.test("B+",100.0);
