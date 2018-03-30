@@ -22,15 +22,18 @@ class SynBox
         SynBox();
         void train(const char type[2],int step);
         double test(const char type[2],double smaller);
-//        double test_smallstep(const char type[2]);
+        double testPredicError(const char type[2]);
         void predic(double x[7],double xl[4],double xr[4]);
         void set(const char para_file[]);        
         
         void savePara(int dataNO);
         void saveTestResult(const char type[2],int dataNO,double curve_err);
-
+        void savePredicError(const char type[2],int dataNO,double predicErr);
         double out[4];
     private:
+        double predic_error[Nt][Nx];
+        void clearPredicError();
+
 
         double test_kni[Nt][Nx];
         double test_hb[Nt][Nx];

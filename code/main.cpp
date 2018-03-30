@@ -12,18 +12,19 @@ int main(int argc,char *argv[])
 {
     printf("\n\n======Start!========\n\n");
     int dataNO;
-    double errRE;
+    double errRE,predicErr;
     sscanf(argv[1],"%d",&dataNO);
     srand((unsigned)((unsigned)time(NULL)*dataNO+dataNO));
     SynBox box; 
     box.train("wt",100000);
-    //box.savePara(dataNO);
-    //box.set("para/para1.txt");
-    errRE=box.test("my",100.0);
+    predicErr=box.testPredicError("wt");
+            box.savePredicError("wt",dataNO,predicErr);
+    printf("total predic error : %f\n",predicErr);
     if(1)
     {
         box.savePara(dataNO);
-        		box.saveTestResult("my",dataNO,errRE);
+        errRE=box.test("my",100.0);
+                box.saveTestResult("my",dataNO,errRE);
         errRE=box.test("wt",100.0);
                 box.saveTestResult("wt",dataNO,errRE);
         errRE=box.test("B+",100.0);
