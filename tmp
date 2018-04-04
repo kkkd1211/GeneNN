@@ -1,43 +1,127 @@
 
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
 rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
 rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
 rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
 rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
 rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
 rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
 rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
-rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
-rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
-rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
-rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
-rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
-rm: cannot remove './*.png': No such file or directory
-rm: cannot remove './*.txt': No such file or directory
-rm: cannot remove './*.gif': No such file or directory
-rm: cannot remove './*.png': No such file or directory
+line 6: warning: Cannot find or open file "outkni_P.txt"
+line 6: warning: Cannot find or open file "outhb_P.txt"
+line 6: warning: Cannot find or open file "outkr_P.txt"
+line 6: warning: Cannot find or open file "outgt_P.txt"
+line 6: No data in plot
+
+row-column switching: ./outgt.txt
+row-column switching: ./outhb.txt
+row-column switching: ./outkni.txt
+row-column switching: ./outkr.txt
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: x range is invalid
+
+50 frames in animation sequence
+row-column switching: ./outgt.txt
+row-column switching: ./outhb.txt
+row-column switching: ./outkni.txt
+row-column switching: ./outkr.txt
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: x range is invalid
+
+50 frames in animation sequence
+line 6: warning: Cannot find or open file "outkni_P.txt"
+line 6: warning: Cannot find or open file "outhb_P.txt"
+line 6: warning: Cannot find or open file "outkr_P.txt"
+line 6: warning: Cannot find or open file "outgt_P.txt"
+line 6: No data in plot
+
+line 6: warning: Cannot find or open file "outkni_P.txt"
+line 6: warning: Cannot find or open file "outhb_P.txt"
+line 6: warning: Cannot find or open file "outkr_P.txt"
+line 6: warning: Cannot find or open file "outgt_P.txt"
+line 6: No data in plot
+
+row-column switching: ./outgt.txt
+row-column switching: ./outhb.txt
+row-column switching: ./outkni.txt
+row-column switching: ./outkr.txt
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: x range is invalid
+
+50 frames in animation sequence
+row-column switching: ./outgt.txt
+row-column switching: ./outhb.txt
+row-column switching: ./outkni.txt
+row-column switching: ./outkr.txt
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: x range is invalid
+
+50 frames in animation sequence
+line 6: warning: Cannot find or open file "outkni_P.txt"
+line 6: warning: Cannot find or open file "outhb_P.txt"
+line 6: warning: Cannot find or open file "outkr_P.txt"
+line 6: warning: Cannot find or open file "outgt_P.txt"
+line 6: No data in plot
+
+line 6: warning: Cannot find or open file "outkni_P.txt"
+line 6: warning: Cannot find or open file "outhb_P.txt"
+line 6: warning: Cannot find or open file "outkr_P.txt"
+line 6: warning: Cannot find or open file "outgt_P.txt"
+line 6: No data in plot
+
+row-column switching: ./outgt.txt
+row-column switching: ./outhb.txt
+row-column switching: ./outkni.txt
+row-column switching: ./outkr.txt
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: x range is invalid
+
+50 frames in animation sequence
+row-column switching: ./outgt.txt
+row-column switching: ./outhb.txt
+row-column switching: ./outkni.txt
+row-column switching: ./outkr.txt
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: x range is invalid
+
+50 frames in animation sequence
+line 6: warning: Cannot find or open file "outkni_P.txt"
+line 6: warning: Cannot find or open file "outhb_P.txt"
+line 6: warning: Cannot find or open file "outkr_P.txt"
+line 6: warning: Cannot find or open file "outgt_P.txt"
+line 6: No data in plot
+
+row-column switching: ./outgt.txt
+row-column switching: ./outhb.txt
+row-column switching: ./outkni.txt
+row-column switching: ./outkr.txt
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: warning: Skipping data file with no valid points
+line 6: x range is invalid
+
+50 frames in animation sequence
+line 6: warning: Cannot find or open file "outkni_P.txt"
+line 6: warning: Cannot find or open file "outhb_P.txt"
+line 6: warning: Cannot find or open file "outkr_P.txt"
+line 6: warning: Cannot find or open file "outgt_P.txt"
+line 6: No data in plot
+

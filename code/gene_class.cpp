@@ -14,6 +14,7 @@ SynBox::SynBox()
     printf("Hello new box!!\n\n");
     int i,j;
     beta = 0.02 * (rand()/2147483647.0) ;
+    D=pow(10,rand()/2147483647.0*2+2);  //1000
     for(i=0;i<7;i++)
     {
         k[i]=2.0*(rand()/2147483647.0);

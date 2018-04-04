@@ -7,39 +7,84 @@
 
 #include "gene_class.h"
 using namespace std;
-
+/*
 void SynBox::train(const char type[2],int step)
 {
     printf("trainning %s...\n",type);
-    h=5.0;
-    ln_rate=0.5;
     d_rate=0.4/step;
+    char filekni[50];
+    char filehb[50];
+    char filekr[50];
+    char filegt[50];
+    char filebcd[50];
+    char filenos[50];
+    char filetll[50];
+    sprintf(filekni,"data/%s/kni.txt",type);
+    sprintf(filehb,"data/%s/hb.txt",type);
+    sprintf(filekr,"data/%s/kr.txt",type);
+    sprintf(filegt,"data/%s/gt.txt",type);
+    sprintf(filebcd,"data/%s/bcd.txt",type);
+    sprintf(filenos,"data/%s/nos.txt",type);
+    sprintf(filetll,"data/%s/tll.txt",type);
+    FILE *fkni,*fhb,*fkr,*fgt,*fbcd,*fnos,*ftll;
+    double kni[Nt][Nx],hb[Nt][Nx],kr[Nt][Nx],gt[Nt][Nx];
+    double bcd[Nx],nos[Nx],tll[Nx];
     double x[7],xl[4],xr[4];
     int i,j,kk,row;
-    readData(type);
+    fkni=fopen(filekni,"r");
+    fhb=fopen(filehb,"r");
+    fkr=fopen(filekr,"r");
+    fgt=fopen(filegt,"r");
+    for(i=0;i<Nt;i++)
+    {
+        for(j=0;j<Nx;j++)
+        {
+            fscanf(fkni,"%lf ",&kni[i][j]);
+            fscanf(fhb,"%lf ",&hb[i][j]);
+            fscanf(fkr,"%lf ",&kr[i][j]);
+            fscanf(fgt,"%lf ",&gt[i][j]);
+        }
+    }
+    fclose(fkni);
+    fclose(fhb);
+    fclose(fkr);
+    fclose(fgt);
+    fbcd=fopen(filebcd,"r");
+    fnos=fopen(filenos,"r");
+    ftll=fopen(filetll,"r");
+    for(i=0;i<Nx;i++)
+    {
+        fscanf(fbcd,"%lf ",&bcd[i]);
+        fscanf(fnos,"%lf ",&nos[i]);
+        fscanf(ftll,"%lf ",&tll[i]);
+    }
+    fclose(fbcd);
+    fclose(fnos);
+    fclose(ftll);
+
     for(i=0;i<step;i++)
     {
         row=(int)((rand()/2147483647.0)*Nt);
-        if(kniData[row][0]!=kniData[row][0])
+        if(kni[row][0]!=kni[row][0])
             continue;
         if(row==Nt-1)
             continue;
         for(kk=0;kk<Nx;kk++) //kk<Nx
         {
             j=(int)((rand()/2147483647.0)*Nx);
-            x[0]=kniData[row][j];
-            x[1]=hbData[row][j];
-            x[2]=krData[row][j];
-            x[3]=gtData[row][j];
-            x[4]=bcdData[j];
-            x[5]=nosData[j];
-            x[6]=tllData[j];
+            x[0]=kni[row][j];
+            x[1]=hb[row][j];
+            x[2]=kr[row][j];
+            x[3]=gt[row][j];
+            x[4]=bcd[j];
+            x[5]=nos[j];
+            x[6]=tll[j];
             if(j!=0)
             {
-                xl[0]=kniData[row][j-1];
-                xl[1]=hbData[row][j-1];
-                xl[2]=krData[row][j-1];
-                xl[3]=gtData[row][j-1];
+                xl[0]=kni[row][j-1];
+                xl[1]=hb[row][j-1];
+                xl[2]=kr[row][j-1];
+                xl[3]=gt[row][j-1];
             }
             else if(j==0)
             {
@@ -50,10 +95,10 @@ void SynBox::train(const char type[2],int step)
             }
             if(j!=Nx-1)
             {
-                xr[0]=kniData[row][j+1];
-                xr[1]=hbData[row][j+1];
-                xr[2]=krData[row][j+1];
-                xr[3]=gtData[row][j+1];
+                xr[0]=kni[row][j+1];
+                xr[1]=hb[row][j+1];
+                xr[2]=kr[row][j+1];
+                xr[3]=gt[row][j+1];
             }
             else if(j==Nx-1)
             {
@@ -62,10 +107,10 @@ void SynBox::train(const char type[2],int step)
                 xr[2]=-1;
                 xr[3]=-1;
             }
-            tg[0]=kniData[row+1][j]-kniData[row][j];
-            tg[1]=hbData[row+1][j]-hbData[row][j];
-            tg[2]=krData[row+1][j]-krData[row][j];
-            tg[3]=gtData[row+1][j]-gtData[row][j];
+            tg[0]=kni[row+1][j]-kni[row][j];
+            tg[1]=hb[row+1][j]-hb[row][j];
+            tg[2]=kr[row+1][j]-kr[row][j];
+            tg[3]=gt[row+1][j]-gt[row][j];
             predic(x,xl,xr);
             de();
             err();
@@ -92,7 +137,7 @@ void SynBox::savePara(int dataNO)
             fprintf(f_para,"%f\t",v[i][j]);
         fprintf(f_para,"\n");
     }
-    fprintf(f_para,"beta:\n%f\nD:\n%f",beta,D);
+    fprintf(f_para,"beta:\n%f",beta);
     fclose(f_para);
     printf("done!\n\n");
 }//savePara
@@ -116,7 +161,7 @@ void SynBox::set(const char file[])
         }
         fscanf(fp,"\n");
     }
-    fscanf(fp,"beta:\n%lfD:\n%lf",&beta,&D);
+    fscanf(fp,"beta:\n%lf",&beta);
     fclose(fp);
     printf("set finished!\n\npara:\n");
     for(i=0;i<7;i++)
@@ -146,8 +191,6 @@ void SynBox::para_update()
     beta-=n_eb*h*ln_rate;
     if(beta<0)
         beta=k_epsilon;
-    D-=n_eD*h*ln_rate;
-    if(D<0)
-        D=k_epsilon;
 //    ln_rate-=d_rate;
 }//para_update
+*/
