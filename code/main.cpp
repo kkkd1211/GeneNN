@@ -17,7 +17,7 @@ int main(int argc,char *argv[])
     srand((unsigned)((unsigned)time(NULL)*(1+dataNO)+dataNO));
     SynBox box;
     box.train("my",1000000);
-    //box.train_curve("my",10000);
+    //box.trainCurve("my",10000);
     predicErr=box.testPredicError("my");
             box.savePredicError("my",dataNO,predicErr);
     printf("total predic error : %f\n",predicErr);

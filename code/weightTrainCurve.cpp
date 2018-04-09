@@ -7,7 +7,7 @@
 
 #include "gene_class.h"
 using namespace std;
-void SynBox::trainCurve(const char type[2],int step)
+void SynBox::weightTrainCurve(const char type[2],int step)
 {
     clearTestOut();
     readData(type);
@@ -18,10 +18,13 @@ void SynBox::trainCurve(const char type[2],int step)
     double delta;
     double v0[7][4],k0[7],beta0,D0;
     double curve_err0,curve_err;
+    double raw_curve_err0,raw_curve_err;
     double tmp;
     for(i=0;i<step;i++)
     {
-        curve_err0=runCurveWithData(1.0);
+        raw_curve_err0=runCurveWithData(1.0);
+//        updateErrWeight(raw_curve_err0);
+        curve_err0=weightErr();
         for(a=0;a<7;a++)
         {
             for(b=0;b<4;b++)
@@ -37,28 +40,32 @@ void SynBox::trainCurve(const char type[2],int step)
             {
                 delta=0.00001*(0.1+fabs(v[a][b]));
                 v[a][b]+=delta;
-                curve_err=runCurveWithData(1.0);
+                raw_curve_err=runCurveWithData(1.0);
+                curve_err=weightErr();
                 n_ev[a][b]=(curve_err-curve_err0)/delta;
                 v[a][b]=v0[a][b];
                 tmp+=n_ev[a][b]*n_ev[a][b];
             }
             delta=0.00001*(0.1+fabs(k[a]));
             k[a]+=delta;
-            curve_err=runCurveWithData(1.0);
+            raw_curve_err=runCurveWithData(1.0);
+            curve_err=weightErr();
             n_ek[a]=(curve_err-curve_err0)/delta;
             k[a]=k0[a];
             tmp+=n_ek[a]*n_ek[a];
         }
         delta=0.00001*(0.1+fabs(beta));
         beta+=delta;
-        curve_err=runCurveWithData(1.0);
+        raw_curve_err=runCurveWithData(1.0);
+        curve_err=weightErr();
         n_eb=(curve_err-curve_err0)/delta;
         beta=beta0;
         tmp+=n_eb*n_eb;
 
         delta=0.00001*(0.1+fabs(D));
         D+=delta;
-        curve_err=runCurveWithData(1.0);
+        raw_curve_err=runCurveWithData(1.0);
+        curve_err=weightErr();
         n_eD=(curve_err-curve_err0)/delta;
         D=D0;
         tmp+=n_eD*n_eD;
@@ -80,3 +87,27 @@ void SynBox::trainCurve(const char type[2],int step)
         ln_rate-=d_rate;
     }//loop i=0:step
 }//train_curve
+
+
+
+
+void SynBox::updateErrWeight(double raw_curve_error)
+{
+    int i,j;
+    for(i=0;i<4;i++)
+    {
+        for(j=0;j<Nx;j++)
+            curveErrorWeight[i][j]=4*Nx*rawCurveErrorDist[i][j]/raw_curve_error;
+    }
+}
+double SynBox::weightErr()
+{
+    double tmp=0;
+    int i,j;
+    for(i=0;i<4;i++)
+    {
+        for(j=0;j<Nx;j++)
+            tmp+=curveErrorWeight[i][j]*rawCurveErrorDist[i][j];
+    }
+    return tmp;
+}

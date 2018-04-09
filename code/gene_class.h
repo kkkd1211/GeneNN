@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 
 #define Nx 100
-#define Nt 50//50
+#define Nt 50//40//50
 #define k_epsilon 0.000001
 #define kkk printf("kkk!!!\n");
 using namespace std;
@@ -21,7 +21,8 @@ class SynBox
 //        ~SynBox();
         SynBox();
         void train(const char type[2],int step);
-        void train_curve(const char type[2],int step);
+        void trainCurve(const char type[2],int step);
+        void weightTrainCurve(const char type[2],int step);
         double test(const char type[2],double smaller);
         double testPredicError(const char type[2]);
         void predic(double x[7],double xl[4],double xr[4]);
@@ -32,15 +33,9 @@ class SynBox
         void savePredicError(const char type[2],int dataNO,double predicErr);
         double out[4];
     private:
-
+        double testCurveErrorInFrame(int frame);
         double runCurveWithData(double smaller);
         void runCurve(double kni0[Nx],double hb0[Nx],double kr0[Nx],double gt0[Nx],double bcd[Nx],double nos[Nx],double tll[Nx],double smaller);
-        void readData(const char type[2]);
-        double kniData[Nt][Nx],hbData[Nt][Nx],krData[Nt][Nx],gtData[Nt][Nx],bcdData[Nx],nosData[Nx],tllData[Nx];
-
-        double predic_error[Nt][Nx];
-        void clearPredicError();
-
 
         double test_kni[Nt][Nx];
         double test_hb[Nt][Nx];
@@ -49,11 +44,25 @@ class SynBox
         void clearTestOut();
         void mkTestFile(const char type[2],int dataNO,double curve_err);
 
+        double predic_error[Nt][Nx];
+        void clearPredicError();
+
+        void readData(const char type[2]);
+        double kniData[Nt][Nx],hbData[Nt][Nx],krData[Nt][Nx],gtData[Nt][Nx],bcdData[Nx],nosData[Nx],tllData[Nx];
+
+
+        void updateErrWeight(double raw_curve_error);
+        double weightErr();
+        double rawCurveErrorDist[4][Nx];
+        double curveErrorWeight[4][Nx];
+
+
+
         double k[7];
         double v[7][4];
         double beta;
         double D;
-        double dt=0.0001;
+        double dt;//=0.0001;
 
         double y1[7];
         double y1l[4];
@@ -66,9 +75,9 @@ class SynBox
 
         double tg[4];
 
-        double ln_rate=0.5;
+        double ln_rate;//=0.5;
         double d_rate;
-        double h=5.0;
+        double h;//=5.0;
 
         double n_ek[7];
         double n_ev[7][4];

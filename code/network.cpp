@@ -7,19 +7,27 @@
 
 #include "gene_class.h"
 using namespace std;
+double SynBox::testCurveErrorInFrame(int frame)
+{
+    double tmp=0;
+    int j;
+    for(j=0;j<Nx;j++)
+    {
+        rawCurveErrorDist[0][j]=0.5*(test_kni[frame][j]-kniData[frame][j])*(test_kni[frame][j]-kniData[frame][j]);
+        rawCurveErrorDist[1][j]=0.5*(test_hb[frame][j]-hbData[frame][j])*(test_hb[frame][j]-hbData[frame][j]);
+        rawCurveErrorDist[2][j]=0.5*(test_kr[frame][j]-krData[frame][j])*(test_kr[frame][j]-krData[frame][j]);
+        rawCurveErrorDist[3][j]=0.5*(test_gt[frame][j]-gtData[frame][j])*(test_gt[frame][j]-gtData[frame][j]);
+        tmp=tmp+rawCurveErrorDist[0][j]+rawCurveErrorDist[1][j]+rawCurveErrorDist[2][j]+rawCurveErrorDist[3][j];
+    }
+    return tmp;
+}
 double SynBox::runCurveWithData(double smaller)
 {
     runCurve(kniData[0],hbData[0],krData[0],gtData[0],bcdData,nosData,tllData,smaller);
     int j;
-    double curve_err=0;
-    for(j=0;j<Nx;j++)
-    {
-        curve_err+=(test_kni[Nt-1][j]-kniData[Nt-1][j])*(test_kni[Nt-1][j]-kniData[Nt-1][j]);
-        curve_err+=(test_hb[Nt-1][j]-hbData[Nt-1][j])*(test_hb[Nt-1][j]-hbData[Nt-1][j]);
-        curve_err+=(test_kr[Nt-1][j]-krData[Nt-1][j])*(test_kr[Nt-1][j]-krData[Nt-1][j]);
-        curve_err+=(test_gt[Nt-1][j]-gtData[Nt-1][j])*(test_gt[Nt-1][j]-gtData[Nt-1][j]);
-    }
-    curve_err*=0.5;
+    double curve_err=testCurveErrorInFrame(Nt-1);
+//    curve_err+=testCurveErrorInFrame(19);
+//    curve_err/=2.0;
     return(curve_err);
 }
 void SynBox::runCurve(double kni0[Nx],double hb0[Nx],double kr0[Nx],double gt0[Nx],double bcd[Nx],double nos[Nx],double tll[Nx],double smaller)
